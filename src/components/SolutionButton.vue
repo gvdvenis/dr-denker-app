@@ -70,19 +70,19 @@ const submitSolution = () => {
 <style scoped>
 .solution-btn {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  top: 20px;
+  left: 20px;
   background: #4CAF50;
   color: white;
   border: none;
-  padding: 15px 25px;
+  padding: 12px 24px;
   border-radius: 50px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
   transition: all 0.3s ease;
-  z-index: 998;
+  z-index: 1001;
 }
 
 .solution-btn:hover {

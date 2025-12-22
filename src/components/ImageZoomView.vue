@@ -13,7 +13,6 @@
     </div>
 
     <ThumbnailCarousel
-      v-if="isZoomed"
       :current-image="currentImageId"
       @select="changeImage"
     />
@@ -42,7 +41,24 @@ const goBack = () => {
 }
 
 const changeImage = (imageId: number) => {
+  const isSameImage = currentImageId.value === imageId
   currentImageId.value = imageId
+  router.replace({ name: 'zoom', params: { imageId: imageId.toString() } })
+  
+  // If clicking the same image, manually reset since watch won't trigger
+  if (isSameImage) {
+    setTimeout(() => {
+      resetZoom()
+    }, 100)
+  }
+}
+
+const resetZoom = () => {
+  if (zoomInstance) {
+    zoomInstance.moveTo(0, 0)
+    zoomInstance.zoomAbs(0, 0, 1)
+    isZoomed.value = false
+  }
 }
 
 const handleZoom = (e: any) => {
@@ -73,10 +89,10 @@ onUnmounted(() => {
 })
 
 watch(currentImageId, () => {
-  if (zoomInstance) {
-    zoomInstance.reset()
-    isZoomed.value = false
-  }
+  // Wait a bit for the new image to render
+  setTimeout(() => {
+    resetZoom()
+  }, 100)
 })
 </script>
 
@@ -98,23 +114,23 @@ watch(currentImageId, () => {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
+  background: #f44336;
   color: white;
-  font-size: 32px;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+  transition: all 0.3s ease;
   z-index: 1001;
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: #da190b;
+  box-shadow: 0 6px 16px rgba(244, 67, 54, 0.6);
+  transform: translateY(-2px);
 }
 
 .zoom-container {

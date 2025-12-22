@@ -6,8 +6,9 @@
         :space-between="10"
         :centered-slides="true"
         :loop="true"
-        :navigation="true"
+        :initial-slide="currentImage - 1"
         class="thumbnail-swiper"
+        @swiper="onSwiper"
       >
         <swiper-slide
           v-for="index in 40"
@@ -28,9 +29,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Navigation } from 'swiper/modules'
 import 'swiper/css'
-import 'swiper/css/navigation'
 
 interface Props {
   currentImage: number
@@ -40,14 +39,29 @@ interface Emits {
   select: [imageId: number]
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const isVisible = ref(true)
+const swiperInstance = ref<any>(null)
+
+const onSwiper = (swiper: any) => {
+  swiperInstance.value = swiper
+}
 
 const selectThumbnail = (index: number) => {
   emit('select', index)
 }
+
+// Watch currentImage and center the carousel when it changes
+watch(
+  () => props.currentImage,
+  (newImage) => {
+    if (swiperInstance.value) {
+      swiperInstance.value.slideToLoop(newImage - 1)
+    }
+  }
+)
 
 watch(
   () => isVisible.value,
@@ -100,10 +114,5 @@ watch(
 .thumbnail.active {
   opacity: 1;
   border-color: #4CAF50;
-}
-
-:deep(.swiper-button-prev),
-:deep(.swiper-button-next) {
-  color: white;
 }
 </style>
