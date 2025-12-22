@@ -72,8 +72,10 @@ onMounted(() => {
       zoomInstance = panzoom(img, {
         maxZoom: 5,
         minZoom: 1,
-        smoothScroll: true,
-        zoomDoubleClickSpeed: 1.5
+        smoothScroll: false,
+        zoomDoubleClickSpeed: 1.5,
+        bounds: true,
+        boundsPadding: 0.3
       })
 
       zoomInstance.on('zoom', handleZoom)
@@ -105,8 +107,7 @@ watch(currentImageId, () => {
   bottom: 0;
   background: #000;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   z-index: 1000;
 }
 
@@ -134,12 +135,12 @@ watch(currentImageId, () => {
 }
 
 .zoom-container {
-  width: 100%;
-  height: 100%;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding-bottom: 0;
 }
 
 .zoom-image {

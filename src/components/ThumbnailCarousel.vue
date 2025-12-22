@@ -2,7 +2,7 @@
   <div v-if="isVisible" class="thumbnail-carousel">
     <div class="carousel-wrapper">
       <swiper
-        :slides-per-view="6"
+        :slides-per-view="'auto'"
         :space-between="10"
         :centered-slides="true"
         :loop="true"
@@ -77,42 +77,58 @@ watch(
 
 <style scoped>
 .thumbnail-carousel {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.8);
+  position: relative;
+  height: 130px;
+  background: #333;
   padding: 15px;
-  border-top: 2px solid rgba(255, 255, 255, 0.3);
-  z-index: 999;
+  border-top: 2px solid #444;
+  flex-shrink: 0;
 }
 
 .carousel-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
 }
 
 .thumbnail-swiper {
   width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  width: auto !important;
 }
 
 .thumbnail {
-  width: 100%;
-  aspect-ratio: 1;
+  height: 100px;
+  width: 100px;
   object-fit: cover;
   border-radius: 4px;
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.8;
   transition: opacity 0.3s ease, border 0.3s ease;
   border: 2px solid transparent;
 }
 
 .thumbnail:hover {
-  opacity: 0.8;
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 .thumbnail.active {
   opacity: 1;
   border-color: #4CAF50;
+}
+
+@media (max-width: 768px) {
+  .thumbnail-carousel {
+    height: 90px;
+    padding: 10px;
+  }
+
+  .thumbnail {
+    height: 60px;
+    width: 60px;
+  }
 }
 </style>
