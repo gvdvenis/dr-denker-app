@@ -16,4 +16,16 @@ html, body, #app {
   width: 100%;
   height: 100%;
 }
+
+#app {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  #app {
+    padding: 0;
+  }
+}
 </style>

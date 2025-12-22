@@ -84,7 +84,7 @@ watch(
 
 .thumbnail {
   width: 100%;
-  height: 80px;
+  aspect-ratio: 1;
   object-fit: cover;
   border-radius: 4px;
   cursor: pointer;
