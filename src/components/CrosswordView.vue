@@ -17,23 +17,23 @@
           >
             <div class="puzzle-number">{{ puzzleNum }}</div>
             <div class="answer-boxes">
-              <!-- Leading empty boxes for alignment -->
+              <!-- Leading empty boxes to align solution index at the same column -->
               <div
                 v-for="offset in getLeadingOffset(puzzleNum)"
                 :key="`offset-${offset}`"
-                class="empty-offset"
+                class="empty-box"
               />
-              <!-- Answer boxes -->
+              <!-- All answer boxes -->
               <div
-                v-for="(char, index) in getAnswerLength(puzzleNum)"
+                v-for="index in getAnswerLength(puzzleNum)"
                 :key="index"
                 class="answer-box"
                 :class="{
-                  'solution-index': index === getSolutionIndex(puzzleNum),
-                  'filled': getAnswerChar(puzzleNum, index)
+                  'solution-index': (index - 1) === getSolutionIndex(puzzleNum),
+                  'filled': getAnswerChar(puzzleNum, index - 1)
                 }"
               >
-                {{ getAnswerChar(puzzleNum, index) }}
+                {{ getAnswerChar(puzzleNum, index - 1) }}
               </div>
             </div>
           </div>
@@ -80,7 +80,10 @@ const getSolutionIndex = (puzzleNum: number): number => {
 }
 
 const getLeadingOffset = (puzzleNum: number): number => {
-  return getSolutionIndex(puzzleNum)
+  // Calculate how many empty boxes we need before the answer
+  // to align the solution index box at the maxSolutionIndex column
+  const currentSolutionIndex = getSolutionIndex(puzzleNum)
+  return maxSolutionIndex.value - currentSolutionIndex
 }
 
 const getAnswerChar = (puzzleNum: number, charIndex: number): string => {
@@ -142,20 +145,20 @@ const solvedCount = computed(() => {
   background: #f44336;
   color: white;
   border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  font-size: 20px;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
   transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 1001;
 }
 
 .close-btn:hover {
   background: #da190b;
-  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(244, 67, 54, 0.6);
+  transform: translateY(-2px);
 }
 
 .crossword-content {
@@ -191,8 +194,9 @@ const solvedCount = computed(() => {
   flex-wrap: nowrap;
 }
 
-.empty-offset {
+.empty-box {
   width: 32px;
+  height: 32px;
   flex-shrink: 0;
 }
 

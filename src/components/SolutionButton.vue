@@ -15,14 +15,25 @@
           <div v-if="expectedLength" class="expected-length">
             Expected length: {{ expectedLength }} characters
           </div>
-          <input
-            v-model="solutionInput"
-            type="text"
-            :placeholder="`Enter your solution (${expectedLength || '?'} characters)...`"
-            class="solution-input"
-            @keyup.enter="submitSolution"
-            :maxlength="expectedLength || undefined"
-          />
+          <div class="input-wrapper">
+            <input
+              ref="inputElement"
+              v-model="solutionInput"
+              type="text"
+              :placeholder="`Enter your solution (${expectedLength || '?'} characters)...`"
+              class="solution-input"
+              @keyup.enter="submitSolution"
+              :maxlength="expectedLength || undefined"
+            />
+            <button 
+              v-if="solutionInput"
+              class="clear-btn"
+              @click="clearInput"
+              aria-label="Clear input"
+            >
+              ✕
+            </button>
+          </div>
 
           <div v-if="validationMessage" :class="['validation-message', validationClass]">
             {{ validationMessage }}
@@ -39,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 
 interface Props {
   imageId?: number
@@ -58,20 +69,40 @@ const showModal = ref(false)
 const solutionInput = ref('')
 const validationMessage = ref('')
 const validationClass = ref('')
+const inputElement = ref<HTMLInputElement>()
 
 const openModal = () => {
   // Pre-fill with existing answer if available
   solutionInput.value = props.existingAnswer || ''
   validationMessage.value = ''
   showModal.value = true
+  
+  // Focus input after DOM update
+  nextTick(() => {
+    inputElement.value?.focus()
+  })
+}
+
+const clearInput = () => {
+  solutionInput.value = ''
+  validationMessage.value = ''
 }
 
 const submitSolution = () => {
   const trimmedInput = solutionInput.value.trim()
   
+  // Allow empty input to clear the solution
   if (!trimmedInput) {
-    validationMessage.value = 'Please enter a solution'
-    validationClass.value = 'error'
+    if (props.imageId) {
+      emit('submit', props.imageId, '')
+    }
+    validationMessage.value = '✓ Solution cleared!'
+    validationClass.value = 'success'
+    
+    setTimeout(() => {
+      showModal.value = false
+      validationMessage.value = ''
+    }, 1000)
     return
   }
 
@@ -200,6 +231,12 @@ watch(() => props.existingAnswer, (newAnswer) => {
   font-weight: 500;
 }
 
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .solution-input {
   width: 100%;
   padding: 12px;
@@ -214,6 +251,31 @@ watch(() => props.existingAnswer, (newAnswer) => {
 .solution-input:focus {
   outline: none;
   border-color: #4CAF50;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 8px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #666;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.clear-btn:hover {
+  background: #e0e0e0;
+  color: #333;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
 }
 
 .validation-message {
@@ -243,18 +305,25 @@ watch(() => props.existingAnswer, (newAnswer) => {
 }
 
 .btn {
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
 }
 
 .btn-cancel {
   background: #f0f0f0;
   color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-cancel:hover {
@@ -264,9 +333,11 @@ watch(() => props.existingAnswer, (newAnswer) => {
 .btn-submit {
   background: #4CAF50;
   color: white;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
 }
 
 .btn-submit:hover {
   background: #45a049;
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.6);
 }
 </style>

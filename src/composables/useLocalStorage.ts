@@ -21,6 +21,13 @@ export function useLocalStorage() {
 
   // Save a single solution
   const saveSolution = (imageId: number, answer: string) => {
+    // If answer is empty, delete the solution
+    if (!answer.trim()) {
+      solutions.value.delete(imageId)
+      persistToStorage()
+      return
+    }
+    
     const solution: UserSolution = {
       imageId,
       answer: answer.toUpperCase(),

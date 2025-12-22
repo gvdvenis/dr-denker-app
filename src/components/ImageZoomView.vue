@@ -6,16 +6,17 @@
 
     <div class="zoom-container" ref="zoomElement">
       <TransitionGroup name="image-fade" mode="out-in">
-        <img
-          :key="imageId"
-          :src="`/dr-denker-app/images/${imageId}.png`"
-          :alt="`Zoomed puzzle piece ${imageId}`"
-          class="zoom-image"
-        />
+        <div :key="imageId" class="image-wrapper">
+          <img
+            :src="`/dr-denker-app/images/${imageId}.png`"
+            :alt="`Zoomed puzzle piece ${imageId}`"
+            class="zoom-image"
+          />
+          <div v-if="characterCount" class="character-count">
+            {{ characterCount }}
+          </div>
+        </div>
       </TransitionGroup>
-      <div v-if="characterCount" class="character-count">
-        {{ characterCount }}
-      </div>
     </div>
 
     <ThumbnailCarousel
@@ -90,9 +91,9 @@ const initPanzoom = () => {
   }
   
   if (zoomElement.value) {
-    const img = zoomElement.value.querySelector('.zoom-image') as HTMLImageElement
-    if (img) {
-      zoomInstance = panzoom(img, {
+    const wrapper = zoomElement.value.querySelector('.image-wrapper') as HTMLElement
+    if (wrapper) {
+      zoomInstance = panzoom(wrapper, {
         maxZoom: 5,
         minZoom: 1,
         smoothScroll: false,
@@ -186,11 +187,21 @@ watch(() => props.imageId, () => {
   position: absolute;
 }
 
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: grab;
+}
+
+.image-wrapper:active {
+  cursor: grabbing;
+}
+
 .zoom-image {
   max-width: 80vw;
   max-height: 80vh;
   object-fit: contain;
-  cursor: grab;
+  display: block;
 }
 
 .zoom-image:active {
@@ -199,8 +210,8 @@ watch(() => props.imageId, () => {
 
 .character-count {
   position: absolute;
-  bottom: 120px;
-  left: 20px;
+  bottom: 8px;
+  left: 8px;
   background: rgba(0, 0, 0, 0.75);
   color: white;
   padding: 8px 16px;
@@ -208,5 +219,6 @@ watch(() => props.imageId, () => {
   font-size: 16px;
   font-weight: bold;
   z-index: 10;
+  pointer-events: none;
 }
 </style>
