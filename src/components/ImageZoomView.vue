@@ -5,15 +5,18 @@
     </button>
 
     <div class="zoom-container" ref="zoomElement">
-      <img
-        :src="`/dr-denker-app/images/${currentImageId}.png`"
-        :alt="`Zoomed puzzle piece ${currentImageId}`"
-        class="zoom-image"
-      />
+      <TransitionGroup name="image-fade" mode="out-in">
+        <img
+          :key="imageId"
+          :src="`/dr-denker-app/images/${imageId}.png`"
+          :alt="`Zoomed puzzle piece ${imageId}`"
+          class="zoom-image"
+        />
+      </TransitionGroup>
     </div>
 
     <ThumbnailCarousel
-      :current-image="currentImageId"
+      :current-image="imageId"
       @select="changeImage"
     />
 
@@ -23,27 +26,32 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
 import panzoom from 'panzoom'
 import ThumbnailCarousel from './ThumbnailCarousel.vue'
 import SolutionButton from './SolutionButton.vue'
 
-const router = useRouter()
-const route = useRoute()
+interface Props {
+  imageId: number
+}
 
-const currentImageId = ref<number>(parseInt(route.params.imageId as string) || 1)
+interface Emits {
+  close: []
+  changeImage: [imageId: number]
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
 const zoomElement = ref<HTMLDivElement>()
 const isZoomed = ref(false)
 let zoomInstance: any = null
 
 const goBack = () => {
-  router.push({ name: 'home' })
+  emit('close')
 }
 
 const changeImage = (imageId: number) => {
-  const isSameImage = currentImageId.value === imageId
-  currentImageId.value = imageId
-  router.replace({ name: 'zoom', params: { imageId: imageId.toString() } })
+  const isSameImage = props.imageId === imageId
+  emit('changeImage', imageId)
   
   // If clicking the same image, manually reset since watch won't trigger
   if (isSameImage) {
@@ -61,11 +69,11 @@ const resetZoom = () => {
   }
 }
 
-const handleZoom = (e: any) => {
-  isZoomed.value = e.scale > 1.2
-}
-
-onMounted(() => {
+const initPanzoom = () => {
+  if (zoomInstance) {
+    zoomInstance.dispose()
+  }
+  
   if (zoomElement.value) {
     const img = zoomElement.value.querySelector('.zoom-image') as HTMLImageElement
     if (img) {
@@ -75,13 +83,14 @@ onMounted(() => {
         smoothScroll: false,
         zoomDoubleClickSpeed: 1.5,
         bounds: true,
-        boundsPadding: 0.3
+        boundsPadding: 0.3,
       })
-
-      zoomInstance.on('zoom', handleZoom)
-      zoomInstance.on('pan', handleZoom)
     }
   }
+}
+
+onMounted(() => {
+  initPanzoom()
 })
 
 onUnmounted(() => {
@@ -90,11 +99,11 @@ onUnmounted(() => {
   }
 })
 
-watch(currentImageId, () => {
-  // Wait a bit for the new image to render
+watch(() => props.imageId, () => {
+  // Wait for the new image to render, then reinitialize panzoom
   setTimeout(() => {
-    resetZoom()
-  }, 100)
+    initPanzoom()
+  }, 350) // Wait for transition to complete (300ms) + buffer
 })
 </script>
 
@@ -141,11 +150,30 @@ watch(currentImageId, () => {
   justify-content: center;
   overflow: hidden;
   padding-bottom: 0;
+  position: relative;
+}
+
+.image-fade-enter-active,
+.image-fade-leave-active {
+  transition: opacity 0.3s ease;
+  position: absolute;
+}
+
+.image-fade-enter-from {
+  opacity: 0;
+}
+
+.image-fade-leave-to {
+  opacity: 0;
+}
+
+.image-fade-leave-active {
+  position: absolute;
 }
 
 .zoom-image {
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 80vw;
+  max-height: 80vh;
   object-fit: contain;
   cursor: grab;
 }

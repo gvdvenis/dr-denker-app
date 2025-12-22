@@ -100,19 +100,17 @@ watch(
 }
 
 .thumbnail {
-  height: 100px;
-  width: 100px;
-  object-fit: cover;
+  height: 96px;
+  width: 96px;
   border-radius: 4px;
   cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.3s ease, border 0.3s ease;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, border 0.2s ease;
   border: 2px solid transparent;
 }
 
 .thumbnail:hover {
   opacity: 1;
-  transform: scale(1.05);
 }
 
 .thumbnail.active {
@@ -127,8 +125,8 @@ watch(
   }
 
   .thumbnail {
-    height: 60px;
-    width: 60px;
+    height: 66px;
+    width: 66px;
   }
 }
 </style>

@@ -1,7 +1,28 @@
 # Implementation Complete ✓
 
 ## Summary
-Successfully initialized a Vue 3 + Vite image puzzle web application following the plan from `plan-drDenkerApp.prompt.md`. Completed initial implementation and applied bug fixes & responsive design improvements.
+Successfully implemented a Vue 3 + Vite image puzzle web application with single-page architecture, smooth animations, and responsive design. No routing library used - pure Vue state management with dialog overlays.
+
+## Current Architecture (v2.0)
+
+### Single-Page Approach
+- **No Vue Router**: Removed routing in favor of component state management
+- **Dialog Pattern**: ImageZoomView rendered conditionally via `v-if` based on App.vue state
+- **Prop/Emit Communication**: Components use props for data down, events for actions up
+- **URL Stability**: No URL changes during navigation - cleaner UX for image browsing
+
+### Animation System
+- **Zoom Dialog Fade-In**: 300ms opacity transition when opening zoom view (eliminates flashing)
+- **Cross-Fade Images**: 300ms opacity transition when switching images in carousel
+- **TransitionGroup**: Vue's built-in transitions for smooth DOM updates
+- **Panzoom Reinitialization**: Disposes old instance and creates new one after transitions complete
+
+### Carousel Implementation
+- **Fixed Heights**: 130px (desktop), 90px (mobile) for predictable layout
+- **Explicit Thumbnail Sizing**: 100px×100px (desktop), 60px×60px (mobile)
+- **Auto Slides-Per-View**: `:slides-per-view="'auto'"` lets Swiper calculate based on thumbnail width
+- **Full Width**: No max-width constraint - uses entire screen width
+- **Flex Layout Participation**: `position: relative` with `flex-shrink: 0` sits at bottom of flex column
 
 ## Completed Steps
 
@@ -32,13 +53,15 @@ Full-screen image zoom component with:
 - Grab cursor for better UX
 
 ### ✓ Step 4: ThumbnailCarousel.vue Component
-Swiper-based carousel showing:
-- All 40 images in a horizontal carousel
-- Appears at bottom when zoomed in
-- Square thumbnail aspect ratio via `aspect-ratio: 1`
-- Navigation arrows
-- Active image highlighting
+Swiper-based carousel with auto-sizing:
+- All 40 images in horizontal carousel with loop mode
+- Fixed heights: 130px (desktop), 90px (mobile)
+- Explicit thumbnail dimensions: 100px×100px (desktop), 60px×60px (mobile)
+- `:slides-per-view="'auto'"` for dynamic slide count based on screen width
+- Automatic centering via `slideToLoop()` when image selection changes
+- Active image highlighting with border
 - Click to switch images
+- Full-width layout (no max-width constraint)
 
 ### ✓ Step 5: SolutionButton.vue Component
 Floating action button with modal for:
@@ -61,12 +84,12 @@ Created `.github/workflows/deploy.yml` with:
 - Production build
 - Automatic deployment to gh-pages branch
 
-### ✓ Additional: Routing Setup
-- Updated `main.js` with Vue Router configuration
-- Hash-based routing for GitHub Pages compatibility
-- Two routes:
-  - `/` - PuzzleGrid view
-  - `/zoom/:imageId` - ImageZoomView with selected image
+### ✓ Additional: Single-Page Architecture (v2.0)
+- **Removed Vue Router**: Simplified to pure Vue state management
+- **App.vue manages state**: `showZoom` and `selectedImageId` refs control dialog visibility
+- **Event-based navigation**: PuzzleGrid emits `selectImage`, ImageZoomView emits `close` and `changeImage`
+- **No URL changes**: Cleaner UX without hash-based routing
+- **Dialog pattern**: ImageZoomView appears as full-screen overlay with `v-if`
 
 ### ✓ Additional: Documentation
 - Updated README.md with comprehensive project documentation
@@ -124,29 +147,45 @@ Applied comprehensive responsive design across the application:
 - Progressive image scaling: larger images on smallest devices for better interaction
 
 ### ✓ Thumbnail Carousel Improvements
-- Fixed thumbnail aspect ratio distortion by replacing `height: 80px` with `aspect-ratio: 1`
-- Maintains square thumbnails on all screen widths
+- Fixed height management: explicit 130px/90px instead of content-based
+- Explicit thumbnail sizing (100px×100px / 60px×60px) instead of aspect-ratio on flexible width
+- Changed `:slides-per-view` from fixed `6` to `'auto'` for dynamic sizing
+- Removed max-width constraint for full-screen carousel
+- Flex layout integration with `position: relative` and `flex-shrink: 0`
+
+### ✓ Animation System
+- **Zoom Dialog Fade**: 300ms opacity transition on open/close (eliminates flashing)
+- **Image Cross-Fade**: 300ms opacity transition when switching images
+- **Panzoom Reinitialization**: Disposes and recreates instance after image changes (350ms delay for transition)
+- **TransitionGroup**: Wraps zoom image with `:key="imageId"` for automatic cross-fade
+- **Absolute Positioning**: Transition elements use absolute positioning for smooth overlap
 
 ## Current Application State
 
-**Version:** 1.0 with responsive design
-**Status:** Production-ready with mobile optimization
+**Version:** 2.0 - Single-Page Architecture with Animations
+**Status:** Production-ready with enhanced UX
 **Deploy Target:** GitHub Pages
 
 **Features:**
-- ✓ Image grid with responsive column layout
+- ✓ Responsive grid with adaptive column layout (5×8, 4×10, 2×20)
+- ✓ Single-page architecture without routing
+- ✓ Smooth fade-in animation for zoom dialog (300ms)
+- ✓ Cross-fade transitions when switching images (300ms)
 - ✓ Full-screen zoom view with pan/pinch gestures
-- ✓ Thumbnail carousel navigation
-- ✓ Solution input validation
+- ✓ Panzoom with bounds constraint (boundsPadding: 0.3)
+- ✓ Auto-sizing thumbnail carousel with fixed heights
+- ✓ Full-width carousel (no max-width limit)
+- ✓ Solution input validation modal
 - ✓ Responsive design across all device types
 - ✓ GitHub Pages deployment automation
 
-**Tested Breakpoints:**
-- Desktop monitors (1920px+)
-- Tablets (768px - 1024px)
-- Large phones (500px - 768px)
-- Small phones (380px - 500px)
-- Smallest phones (< 380px)
+**Technical Highlights:**
+- No Vue Router dependency (lighter bundle)
+- Pure Vue state management with props/emits
+- Native Vue transitions for animations
+- Panzoom reinitialization on image change
+- Fixed-height carousel with explicit thumbnail sizing
+- Swiper auto slides-per-view for dynamic layout
 
 ## Build Status
 - ✓ Development server running: `http://localhost:5173/dr-denker-app/`
@@ -164,8 +203,13 @@ npm run preview # Preview production build
 ```
 
 ## Next Steps for Enhancement
-1. Add puzzle completion tracking/persistence
-2. Implement solution answer verification
-3. Add difficulty levels or puzzle variations
-4. Analytics/usage tracking
-5. Additional visual enhancements or themes
+1. Add keyboard navigation (arrow keys, ESC for close)
+2. Implement puzzle completion tracking/persistence (localStorage)
+3. Add solution answer verification with backend/API
+4. Preload adjacent images for smoother transitions
+5. Add loading states/spinners for image loading
+6. Implement difficulty levels or puzzle variations
+7. Analytics/usage tracking
+8. PWA capabilities (offline support, install prompt)
+9. Accessibility improvements (ARIA labels, keyboard focus management)
+10. Share functionality (share specific puzzle piece)

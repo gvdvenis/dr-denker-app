@@ -18,17 +18,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+interface Emits {
+  selectImage: [imageId: number]
+}
 
-const router = useRouter()
+const emit = defineEmits<Emits>()
 
 const selectImage = (index: number) => {
-  // Navigate to zoom view with selected image
-  router.push({
-    name: 'zoom',
-    params: { imageId: index }
-  })
+  emit('selectImage', index)
 }
 </script>
 

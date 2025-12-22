@@ -1,43 +1,52 @@
 # Dr. Denker Image Puzzle Web App
 
-A Vue 3 + Vite-based interactive image puzzle web application with zoom, pan, and thumbnail carousel capabilities.
+A Vue 3 + Vite-based interactive image puzzle web application with smooth animations, zoom/pan capabilities, and an elegant thumbnail carousel.
 
 ## Features
 
-- **5×8 Image Grid** - Browse puzzle pieces in a responsive grid layout
-- **Interactive Zoom** - Click any image to zoom in with pinch/pan gesture support via panzoom
-- **Thumbnail Carousel** - Swiper-based carousel for quick navigation when zoomed in
+- **Responsive Grid Layout** - Adaptive column counts (5×8, 4×10, 2×20) across all devices
+- **Interactive Zoom Dialog** - Click any image to open full-screen zoom view with smooth fade-in animation
+- **Pan & Zoom Controls** - Pinch, scroll, and drag gestures via panzoom with constrained bounds
+- **Thumbnail Carousel** - Swiper-based carousel with auto-sizing and smooth centering
+- **Cross-Fade Transitions** - Smooth image transitions when switching between puzzle pieces
 - **Solution Input** - Floating action button with modal for submitting solutions
+- **Single-Page Architecture** - No routing, pure Vue state management with dialog overlays
 - **GitHub Pages Deployment** - Automated CI/CD with GitHub Actions
 
 ## Technology Stack
 
-- **Vue 3** - Progressive JavaScript framework
-- **Vite** - Next generation frontend tooling
-- **TypeScript** - Type-safe JavaScript
-- **Panzoom** - Image zoom and pan functionality
-- **Swiper** - Touch-friendly carousel library
-- **@vueuse/core** - Composition utilities
-- **Vue Router** - Client-side routing
+- **Vue 3.4+** - Composition API with TypeScript
+- **Vite 5** - Lightning-fast build tooling
+- **Panzoom 9.4** - Smooth image zoom and pan with bounds
+- **Swiper 12** - Touch-friendly carousel with loop mode
+- **CSS Transitions** - Native Vue transitions for animations
 
 ## Project Structure
 
 ```
 src/
 ├── components/
-│   ├── PuzzleGrid.vue          # 5×8 grid display
-│   ├── ImageZoomView.vue       # Fullscreen zoom view with panzoom
-│   ├── ThumbnailCarousel.vue   # Swiper carousel for thumbnails
+│   ├── PuzzleGrid.vue          # Responsive grid (5×8, 4×10, 2×20 layouts)
+│   ├── ImageZoomView.vue       # Full-screen zoom dialog with panzoom
+│   ├── ThumbnailCarousel.vue   # Auto-sizing carousel with fixed heights
 │   └── SolutionButton.vue      # Floating solution input modal
-├── App.vue                     # Root component
-├── main.js                     # Vue app initialization with routing
-└── style.css                   # Global styles
+├── App.vue                     # Root component with zoom state management
+├── main.js                     # Vue app initialization (no routing)
+└── style.css                   # Global styles and transitions
 
 public/images/                  # Puzzle image assets (40 images)
 
 .github/workflows/
 └── deploy.yml                  # GitHub Actions deployment workflow
 ```
+
+## Architecture Highlights
+
+- **Single-Page Application**: No routing library - uses Vue's reactive state and v-if for dialog management
+- **Prop/Emit Pattern**: Components communicate via props and events, not route parameters
+- **Smooth Animations**: Fade-in transitions for dialog opening, cross-fade for image switching
+- **Fixed-Height Carousel**: 130px (desktop) / 90px (mobile) with explicit thumbnail sizing (100px / 60px)
+- **Panzoom Reinitialization**: Disposes and recreates panzoom instance on image change to handle DOM transitions
 
 ## Getting Started
 
@@ -95,9 +104,11 @@ The project is configured for automatic deployment to GitHub Pages via GitHub Ac
 
 ## Usage
 
-1. **Browse Grid** - Click on any puzzle piece to zoom in
-2. **Navigate While Zoomed** - Use the thumbnail carousel at the bottom to switch images
-3. **Zoom Controls** - Use pinch gestures or scroll wheel to zoom; drag to pan
+1. **Browse Grid** - Click on any puzzle piece to open the zoom dialog with fade-in animation
+2. **Navigate While Zoomed** - Use the thumbnail carousel at the bottom to switch images with cross-fade
+3. **Zoom & Pan** - Scroll/pinch to zoom; drag to pan (with bounds to keep image visible)
+4. **Close** - Click the red ✕ button or press ESC to return to grid
+5. **Submit Solution** - Click the solution button (top-left) to enter your answer
 4. **Submit Solution** - Click the "✓ Solution" button to submit your puzzle answer
 
 ## Configuration Notes
