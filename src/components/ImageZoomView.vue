@@ -13,6 +13,9 @@
           class="zoom-image"
         />
       </TransitionGroup>
+      <div v-if="characterCount" class="character-count">
+        {{ characterCount }}
+      </div>
     </div>
 
     <ThumbnailCarousel
@@ -20,7 +23,12 @@
       @select="changeImage"
     />
 
-    <SolutionButton />
+    <SolutionButton 
+      :image-id="imageId"
+      :expected-length="characterCount"
+      :existing-answer="existingAnswer"
+      @submit="handleSolutionSubmit"
+    />
   </div>
 </template>
 
@@ -32,11 +40,14 @@ import SolutionButton from './SolutionButton.vue'
 
 interface Props {
   imageId: number
+  characterCount?: number
+  existingAnswer?: string
 }
 
 interface Emits {
   close: []
   changeImage: [imageId: number]
+  submitSolution: [imageId: number, answer: string]
 }
 
 const props = defineProps<Props>()
@@ -59,6 +70,10 @@ const changeImage = (imageId: number) => {
       resetZoom()
     }, 100)
   }
+}
+
+const handleSolutionSubmit = (imageId: number, answer: string) => {
+  emit('submitSolution', imageId, answer)
 }
 
 const resetZoom = () => {
@@ -180,5 +195,18 @@ watch(() => props.imageId, () => {
 
 .zoom-image:active {
   cursor: grabbing;
+}
+
+.character-count {
+  position: absolute;
+  bottom: 120px;
+  left: 20px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 10;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="solution-btn" @click="showModal = true" aria-label="Submit solution">
+    <button class="solution-btn" @click="openModal" aria-label="Submit solution">
       ✓ Solution
     </button>
 
@@ -12,12 +12,16 @@
         </div>
 
         <div class="modal-content">
+          <div v-if="expectedLength" class="expected-length">
+            Expected length: {{ expectedLength }} characters
+          </div>
           <input
             v-model="solutionInput"
             type="text"
-            placeholder="Enter your solution..."
+            :placeholder="`Enter your solution (${expectedLength || '?'} characters)...`"
             class="solution-input"
             @keyup.enter="submitSolution"
+            :maxlength="expectedLength || undefined"
           />
 
           <div v-if="validationMessage" :class="['validation-message', validationClass]">
@@ -35,36 +39,69 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+
+interface Props {
+  imageId?: number
+  expectedLength?: number
+  existingAnswer?: string
+}
+
+interface Emits {
+  submit: [imageId: number, answer: string]
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
 
 const showModal = ref(false)
 const solutionInput = ref('')
 const validationMessage = ref('')
 const validationClass = ref('')
 
+const openModal = () => {
+  // Pre-fill with existing answer if available
+  solutionInput.value = props.existingAnswer || ''
+  validationMessage.value = ''
+  showModal.value = true
+}
+
 const submitSolution = () => {
-  if (!solutionInput.value.trim()) {
+  const trimmedInput = solutionInput.value.trim()
+  
+  if (!trimmedInput) {
     validationMessage.value = 'Please enter a solution'
     validationClass.value = 'error'
     return
   }
 
-  // Local validation - you can customize this logic
-  const isValid = solutionInput.value.trim().length > 0
-  
-  if (isValid) {
-    validationMessage.value = '✓ Solution submitted successfully!'
-    validationClass.value = 'success'
-    setTimeout(() => {
-      showModal.value = false
-      solutionInput.value = ''
-      validationMessage.value = ''
-    }, 1500)
-  } else {
-    validationMessage.value = 'Invalid solution format'
+  // Validate length if expected length is provided
+  if (props.expectedLength && trimmedInput.length !== props.expectedLength) {
+    validationMessage.value = `Answer must be exactly ${props.expectedLength} characters`
     validationClass.value = 'error'
+    return
   }
+
+  // Emit submit event
+  if (props.imageId) {
+    emit('submit', props.imageId, trimmedInput)
+  }
+
+  validationMessage.value = '✓ Solution submitted successfully!'
+  validationClass.value = 'success'
+  
+  setTimeout(() => {
+    showModal.value = false
+    validationMessage.value = ''
+  }, 1000)
 }
+
+// Watch for external changes to existingAnswer
+watch(() => props.existingAnswer, (newAnswer) => {
+  if (showModal.value && newAnswer) {
+    solutionInput.value = newAnswer
+  }
+})
 </script>
 
 <style scoped>
@@ -156,6 +193,13 @@ const submitSolution = () => {
   padding: 20px;
 }
 
+.expected-length {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
 .solution-input {
   width: 100%;
   padding: 12px;
@@ -164,6 +208,7 @@ const submitSolution = () => {
   font-size: 16px;
   box-sizing: border-box;
   transition: border-color 0.3s ease;
+  text-transform: uppercase;
 }
 
 .solution-input:focus {
