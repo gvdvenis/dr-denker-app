@@ -94,10 +94,12 @@ const openCrossword = () => {
   justify-content: center;
 }
 
-.crossword-fab:hover {
-  background: #1976D2;
-  box-shadow: 0 0.375rem 1rem rgba(33, 150, 243, 0.6);
-  transform: translateY(-0.125rem) scale(1.05);
+@media (hover: hover) and (pointer: fine) {
+  .crossword-fab:hover {
+    background: #1976D2;
+    box-shadow: 0 0.375rem 1rem rgba(33, 150, 243, 0.6);
+    transform: translateY(-0.125rem) scale(1.05);
+  }
 }
 
 .crossword-fab svg {
@@ -120,23 +122,28 @@ const openCrossword = () => {
   border-radius: 0.5em;
   background: white;
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
   font-size: clamp(10px, 1.5vw, 16px);
 }
 
-.grid-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.2);
+@media (hover: hover) and (pointer: fine) {
+  .grid-item {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .grid-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.2);
+  }
+
+  .grid-item.solved .puzzle-image:hover {
+    filter: blur(0);
+  }
 }
 
-.grid-item.solved .puzzle-image{
+.grid-item.solved .puzzle-image {
   filter: blur(1.5px);
-}
-
-.grid-item.solved .puzzle-image:hover {
-  filter: blur(0);
 }
 
 .puzzle-image {
