@@ -5,10 +5,10 @@
     </button>
 
     <div class="zoom-container" ref="zoomElement">
-      <TransitionGroup name="image-fade" mode="out-in">
+      <TransitionGroup name="image-fade">
         <div :key="imageId" class="image-wrapper">
           <img
-            :src="`/dr-denker-app/images/${imageId}.png`"
+            :src="`/dr-denker-app/images/${imageId}.webp`"
             :alt="`Zoomed puzzle piece ${imageId}`"
             class="zoom-image"
           />
@@ -209,6 +209,7 @@ watch(() => props.imageId, () => {
   max-height: 80vh;
   object-fit: contain;
   display: block;
+  aspect-ratio: 1;
 }
 
 .zoom-image:active {

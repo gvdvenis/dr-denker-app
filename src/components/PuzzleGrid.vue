@@ -19,7 +19,7 @@
         @click="selectImage(index)"
       >
         <img
-          :src="`/dr-denker-app/images/${index}.png`"
+          :src="`/dr-denker-app/images/${index}.webp`"
           :alt="`Puzzle piece ${index}`"
           class="puzzle-image"
         />
@@ -156,6 +156,7 @@ const openCrossword = () => {
   width: 100%;
   flex: 1;
   display: block;
+  aspect-ratio: 1;
 }
 
 .checkmark {

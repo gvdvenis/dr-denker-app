@@ -17,7 +17,7 @@
         >
           <div class="thumbnail-wrapper">
             <img
-              :src="`/dr-denker-app/images/${index}.png`"
+              :src="`/dr-denker-app/images/${index}.webp`"
               :alt="`Thumbnail ${index}`"
               :class="['thumbnail', { active: index === currentImage }]"
             />
@@ -123,6 +123,7 @@ watch(
   transition: var(--transition-fast);
   border: 2px solid transparent;
   display: block;
+  aspect-ratio: 1;
 }
 
 .thumbnail-checkmark {

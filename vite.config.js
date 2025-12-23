@@ -9,5 +9,15 @@ export default defineConfig({
   build: {
     target: 'es2020',
     minify: 'terser'
+  },
+  preview: {
+    headers: {
+      'Cache-Control': 'public, max-age=5184000' // 2 months
+    }
+  },
+  server: {
+    headers: {
+      'Cache-Control': 'public, max-age=5184000' // 2 months
+    }
   }
 })
