@@ -23,6 +23,14 @@ const solvedImages = computed(() => {
   return new Set(solutions.value.keys())
 })
 
+const solutionsMap = computed(() => {
+  const map = {}
+  solutions.value.forEach((solution, imageId) => {
+    map[imageId] = solution.answer
+  })
+  return map
+})
+
 const currentImageCharacterCount = computed(() => {
   const puzzle = getPuzzleAnswer(selectedImageId.value)
   return puzzle?.answerLength
@@ -66,6 +74,7 @@ onMounted(async () => {
   <PuzzleGrid 
     :character-counts="characterCounts"
     :solved-images="solvedImages"
+    :solutions="solutionsMap"
     @select-image="openZoom"
     @open-crossword="openCrossword"
   />
@@ -76,6 +85,7 @@ onMounted(async () => {
       :image-id="selectedImageId"
       :character-count="currentImageCharacterCount"
       :existing-answer="currentImageExistingAnswer"
+      :solved-images="solvedImages"
       @close="closeZoom"
       @change-image="selectedImageId = $event"
       @submit-solution="handleSolutionSubmit"

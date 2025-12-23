@@ -23,12 +23,15 @@
           :alt="`Puzzle piece ${index}`"
           class="puzzle-image"
         />
+        <div v-if="solvedImages.has(index)" class="checkmark">
+          ✓
+        </div>
         <div class="badge-container">
-          <div v-if="characterCounts[index - 1]" class="character-count">
-            {{ characterCounts[index - 1] }}
+          <div v-if="solutions[index]" class="badge-rounded badge-success badge-full">
+            {{ solutions[index] }}
           </div>
-          <div v-if="solvedImages.has(index)" class="checkmark">
-            ✓
+          <div v-else-if="characterCounts[index - 1]" class="badge-rounded badge-dark">
+            {{ characterCounts[index - 1] }}
           </div>
         </div>
       </div>
@@ -40,6 +43,7 @@
 interface Props {
   characterCounts?: number[]
   solvedImages?: Set<number>
+  solutions?: Record<number, string>
 }
 
 interface Emits {
@@ -49,7 +53,8 @@ interface Emits {
 
 const props = withDefaults(defineProps<Props>(), {
   characterCounts: () => [],
-  solvedImages: () => new Set()
+  solvedImages: () => new Set(),
+  solutions: () => ({})
 })
 
 const emit = defineEmits<Emits>()
@@ -118,13 +123,14 @@ const openCrossword = () => {
 .grid-item {
   position: relative;
   cursor: pointer;
-  padding: 0.3em;
-  border-radius: 0.5em;
+  padding: 0.3rem;
+  border-radius: 0.5rem;
   background: var(--color-white);
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   font-size: clamp(10px, 1.5vw, 16px);
+  overflow: visible;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -152,34 +158,27 @@ const openCrossword = () => {
   display: block;
 }
 
+.checkmark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-success);
+  font-size: 4rem;
+  font-weight: var(--font-weight-bold);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+               0 0 20px rgba(255, 255, 255, 0.6);
+  z-index: 20;
+  pointer-events: none;
+}
+
 .badge-container {
   margin-top: -0.5rem;
   display: flex;
   gap: 0.5rem;
   align-items: center;
   z-index: 10;
-}
-
-.character-count {
-  background: var(--bg-badge);
-  color: var(--color-white);
-  padding: 0.3em 0.6em;
-  border-radius: 0.9em;
-  font-size: 0.95em;
-  font-weight: var(--font-weight-bold);
-}
-
-.checkmark {
-  background: var(--color-success);
-  color: var(--color-white);
-  width: 1.8em;
-  height: 1.8em;
-  border-radius: var(--radius-circle);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-  font-weight: var(--font-weight-bold);
+  flex-wrap: wrap;
 }
 
 
@@ -208,7 +207,7 @@ const openCrossword = () => {
   }
   
   .grid-item {
-    border-radius: 0.25em;
+    border-radius: 0.25rem;
   }
 }
 
@@ -226,7 +225,7 @@ const openCrossword = () => {
   }
   
   .grid-item {
-    border-radius: 0.25em;
+    border-radius: 0.25rem;
   }
 }
 </style>

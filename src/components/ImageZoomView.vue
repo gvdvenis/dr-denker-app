@@ -12,8 +12,13 @@
             :alt="`Zoomed puzzle piece ${imageId}`"
             class="zoom-image"
           />
-          <div v-if="characterCount" class="character-count">
-            {{ characterCount }}
+          <div class="badges">
+            <div v-if="existingAnswer" class="badge-rounded badge-success">
+              {{ existingAnswer }}
+            </div>
+            <div v-else-if="characterCount" class="badge-rounded badge-dark">
+              {{ characterCount }}
+            </div>
           </div>
         </div>
       </TransitionGroup>
@@ -21,6 +26,7 @@
 
     <ThumbnailCarousel
       :current-image="imageId"
+      :solved-images="solvedImages"
       @select="changeImage"
     />
 
@@ -43,6 +49,7 @@ interface Props {
   imageId: number
   characterCount?: number
   existingAnswer?: string
+  solvedImages?: Set<number>
 }
 
 interface Emits {
@@ -208,16 +215,10 @@ watch(() => props.imageId, () => {
   cursor: grabbing;
 }
 
-.character-count {
+.badges {
   position: absolute;
   bottom: var(--spacing-sm);
   left: var(--spacing-sm);
-  background: var(--bg-badge);
-  color: var(--color-white);
-  padding: var(--spacing-sm) var(--spacing-lg);
-  border-radius: var(--spacing-lg);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-bold);
   z-index: 10;
   pointer-events: none;
 }
