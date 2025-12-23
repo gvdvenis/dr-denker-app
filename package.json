@@ -5,9 +5,10 @@
   "description": "Interactive image puzzle web application with zoom, pan, and crossword features",
   "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "npm run optimize-images && vite --host",
+    "build": "npm run optimize-images && vite build",
+    "preview": "vite preview",
+    "optimize-images": "node scripts/optimize-images.js"
   },
   "dependencies": {
     "@vueuse/core": "^14.1.0",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
+    "sharp": "^0.34.5",
     "terser": "^5.44.1",
     "vite": "^5.3.4"
   }

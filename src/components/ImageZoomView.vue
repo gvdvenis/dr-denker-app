@@ -5,7 +5,7 @@
     </button>
 
     <div class="zoom-container" ref="zoomElement">
-      <TransitionGroup name="image-fade" mode="out-in">
+      <TransitionGroup name="image-fade">
         <div :key="imageId" class="image-wrapper">
           <img
             :src="`/dr-denker-app/images/${imageId}.png`"
