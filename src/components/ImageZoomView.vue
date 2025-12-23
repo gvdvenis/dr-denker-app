@@ -218,9 +218,20 @@ watch(() => props.imageId, () => {
 
 .badges {
   position: absolute;
-  bottom: var(--spacing-sm);
-  left: var(--spacing-sm);
+  bottom: min(0.85vw, 0.85vh);
+  left: min(0.85vw, 0.85vh);
   z-index: 10;
   pointer-events: none;
+  font-size: min(3.4vw, 4vh);
 }
+
+.badges .badge-rounded {
+  border-radius: 999em;
+  font-size: inherit;
+  min-width: 1.5em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 </style>
