@@ -140,22 +140,22 @@ watch(() => props.imageId, () => {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: #f44336;
-  color: white;
+  background: var(--color-danger);
+  color: var(--color-white);
   border: none;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: bold;
+  padding: var(--spacing-md) var(--spacing-2xl);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
-  transition: all 0.3s ease;
+  box-shadow: var(--shadow-danger);
+  transition: var(--transition-all);
   z-index: 1001;
 }
 
 .close-btn:hover {
-  background: #da190b;
-  box-shadow: 0 6px 16px rgba(244, 67, 54, 0.6);
+  background: var(--color-danger-dark);
+  box-shadow: var(--shadow-danger-hover);
   transform: translateY(-2px);
 }
 
@@ -210,14 +210,14 @@ watch(() => props.imageId, () => {
 
 .character-count {
   position: absolute;
-  bottom: 8px;
-  left: 8px;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 16px;
-  font-size: 16px;
-  font-weight: bold;
+  bottom: var(--spacing-sm);
+  left: var(--spacing-sm);
+  background: var(--bg-badge);
+  color: var(--color-white);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: var(--spacing-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
   z-index: 10;
   pointer-events: none;
 }

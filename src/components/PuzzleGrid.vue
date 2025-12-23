@@ -70,7 +70,7 @@ const openCrossword = () => {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f5f5f5;
+  background: var(--color-bg-light);
   padding: 1.25rem 0.625rem;
   position: relative;
 }
@@ -81,13 +81,13 @@ const openCrossword = () => {
   right: 1.25rem;
   width: 3.5rem;
   height: 3.5rem;
-  background: #2196F3;
-  color: white;
+  background: var(--color-info);
+  color: var(--color-white);
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   cursor: pointer;
-  box-shadow: 0 0.25rem 0.75rem rgba(33, 150, 243, 0.4);
-  transition: all 0.3s ease;
+  box-shadow: var(--shadow-info);
+  transition: var(--transition-all);
   z-index: 100;
   display: flex;
   align-items: center;
@@ -96,8 +96,8 @@ const openCrossword = () => {
 
 @media (hover: hover) and (pointer: fine) {
   .crossword-fab:hover {
-    background: #1976D2;
-    box-shadow: 0 0.375rem 1rem rgba(33, 150, 243, 0.6);
+    background: var(--color-info-dark);
+    box-shadow: var(--shadow-info-hover);
     transform: translateY(-0.125rem) scale(1.05);
   }
 }
@@ -120,8 +120,8 @@ const openCrossword = () => {
   cursor: pointer;
   padding: 0.3em;
   border-radius: 0.5em;
-  background: white;
-  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
+  background: var(--color-white);
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
   font-size: clamp(10px, 1.5vw, 16px);
@@ -129,12 +129,12 @@ const openCrossword = () => {
 
 @media (hover: hover) and (pointer: fine) {
   .grid-item {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: var(--transition-all);
   }
 
   .grid-item:hover {
     transform: scale(1.05);
-    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-base);
   }
 
   .grid-item.solved .puzzle-image:hover {
@@ -161,25 +161,25 @@ const openCrossword = () => {
 }
 
 .character-count {
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
+  background: var(--bg-badge);
+  color: var(--color-white);
   padding: 0.3em 0.6em;
   border-radius: 0.9em;
   font-size: 0.95em;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .checkmark {
-  background: #4CAF50;
-  color: white;
+  background: var(--color-success);
+  color: var(--color-white);
   width: 1.8em;
   height: 1.8em;
-  border-radius: 50%;
+  border-radius: var(--radius-circle);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2em;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 

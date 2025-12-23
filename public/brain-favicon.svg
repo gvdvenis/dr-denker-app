@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2e7d32;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Brain outline -->
+  <path d="M32 8 C20 8 12 16 12 26 C12 28 12 30 13 32 C11 34 10 37 10 40 C10 46 14 50 19 50 C19 52 20 54 22 55 C24 56 26 56 28 56 L36 56 C38 56 40 56 42 55 C44 54 45 52 45 50 C50 50 54 46 54 40 C54 37 53 34 51 32 C52 30 52 28 52 26 C52 16 44 8 32 8 Z" fill="url(#brainGrad)" stroke="#1b5e20" stroke-width="2"/>
+  
+  <!-- Brain folds/wrinkles -->
+  <path d="M24 18 Q28 20 26 24" stroke="#1b5e20" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M38 18 Q34 20 36 24" stroke="#1b5e20" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M20 28 Q24 30 22 34" stroke="#1b5e20" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M42 28 Q38 30 40 34" stroke="#1b5e20" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M26 38 Q30 40 28 44" stroke="#1b5e20" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M36 38 Q32 40 34 44" stroke="#1b5e20" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Central division -->
+  <path d="M32 12 L32 52" stroke="#1b5e20" stroke-width="1" opacity="0.3"/>
+</svg>

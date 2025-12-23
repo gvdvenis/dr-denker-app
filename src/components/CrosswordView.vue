@@ -9,7 +9,7 @@
       </div>
       
       <div class="crossword-content">
-        <div class="crossword-grid">
+        <div class="crossword-grid" :style="{ '--max-boxes': maxTotalBoxes }">
           <div
             v-for="puzzleNum in 40"
             :key="puzzleNum"
@@ -97,6 +97,14 @@ const getAnswerChar = (puzzleNum: number, charIndex: number): string => {
 const solvedCount = computed(() => {
   return props.solutions.size
 })
+
+const maxTotalBoxes = computed(() => {
+  // Calculate the maximum total boxes (leading offset + answer length) needed for any row
+  return Math.max(...props.puzzleData.map((p, idx) => {
+    const leadingOffset = maxSolutionIndex.value - p.solutionIndex
+    return leadingOffset + p.answerLength
+  }))
+})
 </script>
 
 <style scoped>
@@ -106,7 +114,7 @@ const solvedCount = computed(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--bg-overlay-dark);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,9 +123,9 @@ const solvedCount = computed(() => {
 }
 
 .crossword-container {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   max-width: 1200px;
   max-height: 90vh;
   width: 100%;
@@ -131,33 +139,33 @@ const solvedCount = computed(() => {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 2px solid #e0e0e0;
-  background: #f5f5f5;
+  border-bottom: 2px solid var(--color-gray-lightest);
+  background: var(--color-bg-light);
 }
 
 .crossword-header h2 {
   margin: 0;
-  font-size: 24px;
-  color: #333;
+  font-size: var(--font-size-xl);
+  color: var(--color-dark);
 }
 
 .close-btn {
-  background: #f44336;
-  color: white;
+  background: var(--color-danger);
+  color: var(--color-white);
   border: none;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: bold;
+  padding: var(--spacing-md) var(--spacing-2xl);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
-  transition: all 0.3s ease;
+  box-shadow: var(--shadow-danger);
+  transition: var(--transition-all);
   z-index: 1001;
 }
 
 .close-btn:hover {
-  background: #da190b;
-  box-shadow: 0 6px 16px rgba(244, 67, 54, 0.6);
+  background: var(--color-danger-dark);
+  box-shadow: var(--shadow-danger-hover);
   transform: translateY(-2px);
 }
 
@@ -165,12 +173,15 @@ const solvedCount = computed(() => {
   flex: 1;
   overflow: auto;
   padding: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .crossword-grid {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--spacing-xs);
+  width: fit-content;
 }
 
 .crossword-row {
@@ -182,15 +193,15 @@ const solvedCount = computed(() => {
 .puzzle-number {
   width: 40px;
   text-align: right;
-  font-weight: bold;
-  color: #666;
-  font-size: 14px;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray);
+  font-size: var(--font-size-sm);
   flex-shrink: 0;
 }
 
 .answer-boxes {
   display: flex;
-  gap: 4px;
+  gap: var(--spacing-xs);
   flex-wrap: nowrap;
 }
 
@@ -203,43 +214,43 @@ const solvedCount = computed(() => {
 .answer-box {
   width: 32px;
   height: 32px;
-  border: 2px solid #ccc;
+  border: 2px solid var(--color-gray-lighter);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  font-size: 16px;
-  background: white;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
+  background: var(--color-white);
   flex-shrink: 0;
 }
 
 .answer-box.filled {
-  background: #f0f0f0;
-  color: #333;
+  background: var(--color-bg-lighter);
+  color: var(--color-dark);
 }
 
 .answer-box.solution-index {
-  border-color: #4CAF50;
-  background: #e8f5e9;
+  border-color: var(--color-success);
+  background: var(--color-success-light-bg);
 }
 
 .answer-box.solution-index.filled {
-  background: #a5d6a7;
-  color: #1b5e20;
-  border-color: #2e7d32;
+  background: var(--color-success-lighter);
+  color: var(--color-success-darkest);
+  border-color: var(--color-success-darker);
 }
 
 .crossword-footer {
-  padding: 16px 20px;
-  border-top: 2px solid #e0e0e0;
-  background: #f5f5f5;
+  padding: var(--spacing-lg) 20px;
+  border-top: 2px solid var(--color-gray-lightest);
+  background: var(--color-bg-light);
 }
 
 .progress-info {
   text-align: center;
-  font-size: 16px;
+  font-size: var(--font-size-base);
   font-weight: 600;
-  color: #666;
+  color: var(--color-gray);
 }
 
 /* Mobile responsiveness */
@@ -254,25 +265,86 @@ const solvedCount = computed(() => {
     height: 100vh;
   }
   
-  .crossword-content {
+  .crossword-header {
     padding: 12px;
-    overflow-x: auto;
+  }
+  
+  .crossword-header h2 {
+    font-size: 18px;
+  }
+  
+  .close-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  .crossword-content {
+    padding: 8px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   
   .crossword-grid {
-    min-width: 600px;
+    gap: 3px;
+    --puzzle-num-width: 22px;
+    --row-gap: 3px;
+    --box-gap: 2px;
+    --padding: 16px;
+  }
+  
+  .crossword-row {
+    gap: var(--row-gap);
   }
   
   .puzzle-number {
-    width: 30px;
-    font-size: 12px;
+    width: var(--puzzle-num-width);
+    font-size: 11px;
+  }
+  
+  .answer-boxes {
+    gap: var(--box-gap);
   }
   
   .answer-box,
-  .empty-offset {
-    width: 28px;
-    height: 28px;
+  .empty-box {
+    --box-size: calc((100vw - var(--puzzle-num-width) - var(--row-gap) - var(--padding) - (var(--max-boxes) - 1) * var(--box-gap)) / var(--max-boxes));
+    width: clamp(14px, var(--box-size), 28px);
+    height: clamp(14px, var(--box-size), 28px);
+    font-size: clamp(9px, calc(var(--box-size) * 0.55), 13px);
+    border-width: 1px;
+  }
+  
+  .crossword-footer {
+    padding: 10px;
+  }
+  
+  .progress-info {
     font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .crossword-content {
+    padding: 6px;
+  }
+  
+  .crossword-grid {
+    gap: 2px;
+    --puzzle-num-width: 18px;
+    --row-gap: 2px;
+    --box-gap: 1px;
+    --padding: 12px;
+  }
+  
+  .puzzle-number {
+    font-size: 10px;
+  }
+  
+  .answer-box,
+  .empty-box {
+    width: clamp(12px, var(--box-size), 24px);
+    height: clamp(12px, var(--box-size), 24px);
+    font-size: clamp(8px, calc(var(--box-size) * 0.55), 11px);
   }
 }
 </style>

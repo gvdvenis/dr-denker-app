@@ -79,7 +79,7 @@ watch(
 .thumbnail-carousel {
   position: relative;
   height: 130px;
-  background: #333;
+  background: var(--color-dark);
   padding: 15px;
   border-top: 2px solid #444;
   flex-shrink: 0;
@@ -102,10 +102,10 @@ watch(
 .thumbnail {
   height: 96px;
   width: 96px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   opacity: 0.6;
-  transition: opacity 0.2s ease, border 0.2s ease;
+  transition: var(--transition-fast);
   border: 2px solid transparent;
 }
 
@@ -115,7 +115,7 @@ watch(
 
 .thumbnail.active {
   opacity: 1;
-  border-color: #4CAF50;
+  border-color: var(--color-success);
 }
 
 @media (max-width: 768px) {

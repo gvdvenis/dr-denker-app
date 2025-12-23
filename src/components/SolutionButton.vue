@@ -140,22 +140,22 @@ watch(() => props.existingAnswer, (newAnswer) => {
   position: fixed;
   top: 20px;
   left: 20px;
-  background: #4CAF50;
-  color: white;
+  background: var(--color-success);
+  color: var(--color-white);
   border: none;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: bold;
+  padding: var(--spacing-md) var(--spacing-2xl);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
-  transition: all 0.3s ease;
+  box-shadow: var(--shadow-success);
+  transition: var(--transition-all);
   z-index: 1001;
 }
 
 .solution-btn:hover {
-  background: #45a049;
-  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.6);
+  background: var(--color-success-dark);
+  box-shadow: var(--shadow-success-hover);
   transform: translateY(-2px);
 }
 
@@ -165,7 +165,7 @@ watch(() => props.existingAnswer, (newAnswer) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--bg-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,9 +173,9 @@ watch(() => props.existingAnswer, (newAnswer) => {
 }
 
 .modal {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   width: 90%;
   max-width: 400px;
   overflow: hidden;
@@ -198,13 +198,13 @@ watch(() => props.existingAnswer, (newAnswer) => {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-gray-lightest);
 }
 
 .modal-header h2 {
   margin: 0;
-  font-size: 20px;
-  color: #333;
+  font-size: var(--font-size-lg);
+  color: var(--color-dark);
 }
 
 .modal-close {
@@ -212,12 +212,12 @@ watch(() => props.existingAnswer, (newAnswer) => {
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: #999;
-  transition: color 0.3s ease;
+  color: var(--color-gray-light);
+  transition: var(--transition-base);
 }
 
 .modal-close:hover {
-  color: #333;
+  color: var(--color-dark);
 }
 
 .modal-content {
@@ -225,10 +225,10 @@ watch(() => props.existingAnswer, (newAnswer) => {
 }
 
 .expected-length {
-  margin-bottom: 8px;
-  font-size: 14px;
-  color: #666;
-  font-weight: 500;
+  margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-gray);
+  font-weight: var(--font-weight-medium);
 }
 
 .input-wrapper {
@@ -239,105 +239,105 @@ watch(() => props.existingAnswer, (newAnswer) => {
 
 .solution-input {
   width: 100%;
-  padding: 12px;
-  border: 2px solid #e0e0e0;
-  border-radius: 6px;
-  font-size: 16px;
+  padding: var(--spacing-md);
+  border: 2px solid var(--color-gray-lightest);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
   box-sizing: border-box;
-  transition: border-color 0.3s ease;
+  transition: var(--transition-base);
   text-transform: uppercase;
 }
 
 .solution-input:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: var(--color-success);
 }
 
 .clear-btn {
   position: absolute;
-  right: 8px;
-  background: #f0f0f0;
+  right: var(--spacing-sm);
+  background: var(--color-bg-lighter);
   border: none;
-  border-radius: 50px;
-  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  padding: 6px var(--spacing-md);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #666;
-  font-size: 14px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  color: var(--color-gray);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  transition: var(--transition-all);
+  box-shadow: var(--shadow-sm);
 }
 
 .clear-btn:hover {
-  background: #e0e0e0;
-  color: #333;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  background: var(--color-gray-lightest);
+  color: var(--color-dark);
+  box-shadow: var(--shadow-base);
   transform: translateY(-1px);
 }
 
 .validation-message {
-  margin-top: 12px;
+  margin-top: var(--spacing-md);
   padding: 10px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   text-align: center;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 }
 
 .validation-message.success {
-  background: #c8e6c9;
-  color: #2e7d32;
+  background: var(--color-success-bg);
+  color: var(--color-success-darker);
 }
 
 .validation-message.error {
-  background: #ffcdd2;
-  color: #c62828;
+  background: var(--color-danger-light-bg);
+  color: var(--color-danger-darker);
 }
 
 .modal-footer {
   display: flex;
   gap: 10px;
   padding: 20px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--color-gray-lightest);
   justify-content: flex-end;
 }
 
 .btn {
-  padding: 12px 24px;
+  padding: var(--spacing-md) var(--spacing-2xl);
   border: none;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: bold;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: var(--transition-all);
+  box-shadow: var(--shadow-base);
 }
 
 .btn:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
 .btn-cancel {
-  background: #f0f0f0;
-  color: #333;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: var(--color-bg-lighter);
+  color: var(--color-dark);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-cancel:hover {
-  background: #e0e0e0;
+  background: var(--color-gray-lightest);
 }
 
 .btn-submit {
-  background: #4CAF50;
-  color: white;
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+  background: var(--color-success);
+  color: var(--color-white);
+  box-shadow: var(--shadow-success);
 }
 
 .btn-submit:hover {
-  background: #45a049;
-  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.6);
+  background: var(--color-success-dark);
+  box-shadow: var(--shadow-success-hover);
 }
 </style>
