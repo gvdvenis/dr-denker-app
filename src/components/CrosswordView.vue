@@ -261,8 +261,8 @@ const maxTotalBoxes = computed(() => {
   
   .crossword-container {
     border-radius: 0;
-    max-height: 100vh;
-    height: 100vh;
+    max-height: 100dvh;
+    height: 100dvh;
   }
   
   .crossword-header {
