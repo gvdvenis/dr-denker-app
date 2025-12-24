@@ -18,7 +18,7 @@
           <div class="thumbnail-wrapper">
             <img
               :src="`/dr-denker-app/images/${index}.webp`"
-              :alt="`Thumbnail ${index}`"
+              :alt="$t('thumbnail.alt', { index })"
               :class="['thumbnail', { active: index === currentImage }]"
             />
             <div v-if="solvedImages.has(index)" class="thumbnail-checkmark">

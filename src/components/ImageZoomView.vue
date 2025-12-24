@@ -1,6 +1,6 @@
 <template>
   <div class="zoom-view">
-    <button class="close-btn" @click="goBack" aria-label="Close zoom view">
+    <button class="close-btn" @click="goBack" :aria-label="$t('imageZoom.close')">
       ✕
     </button>
 
@@ -9,7 +9,7 @@
         <div :key="imageId" class="image-wrapper">
           <img
             :src="`/dr-denker-app/images/${imageId}.webp`"
-            :alt="`Zoomed puzzle piece ${imageId}`"
+            :alt="$t('imageZoom.zoomedPuzzlePiece', { imageId })"
             class="zoom-image"
           />
           <div class="badges">

@@ -2,8 +2,8 @@
   <div class="crossword-overlay" @click.self="$emit('close')">
     <div class="crossword-container">
       <div class="crossword-header">
-        <h2>Crossword Overview</h2>
-        <button class="close-btn" @click="$emit('close')" aria-label="Close crossword view">
+        <h2>{{ $t('crossword.title') }}</h2>
+        <button class="close-btn" @click="$emit('close')" :aria-label="$t('crossword.close')">
           ✕
         </button>
       </div>
@@ -42,7 +42,7 @@
       
       <div class="crossword-footer">
         <div class="progress-info">
-          {{ solvedCount }}/40 puzzles solved
+          {{ $t('crossword.progress', { count: solvedCount }) }}
         </div>
       </div>
     </div>

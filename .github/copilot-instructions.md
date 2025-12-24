@@ -72,3 +72,55 @@ All buttons in this application should follow a consistent pill-shaped design pa
 - **Neutral** (gray): `--color-bg-lighter`, `--color-gray-lightest`, `--shadow-sm`, `--shadow-base`
 
 When creating or modifying buttons, always use CSS variables and utility classes to maintain visual consistency and theming across the application.
+
+## Internationalization (i18n)
+
+This application uses **vue-i18n 9** for multi-language support with English and Dutch translations.
+
+### Language Detection Hierarchy:
+1. **URL Parameter** - `?lang=nl` or `?lang=en` overrides all other settings
+2. **LocalStorage** - Persisted language preference in `dr-denker-language` key
+3. **Browser Language** - Automatically detects from `navigator.language`
+4. **Default Fallback** - English (`en`) if no match found
+
+### Translation Files:
+- `src/locales/en.json` - English translations
+- `src/locales/nl.json` - Dutch translations
+- `src/locales/index.ts` - i18n configuration and `getInitialLocale()` logic
+
+### Usage in Components:
+
+**In Templates** (use `$t()` function):
+```vue
+<template>
+  <h1>{{ $t('solution.modalTitle') }}</h1>
+  <p>{{ $t('crossword.progress', { count: solvedCount }) }}</p>
+  <img :alt="$t('thumbnail.alt', { index })" />
+</template>
+```
+
+**In Script** (use `useI18n()` composable):
+```vue
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+function showMessage() {
+  alert(t('solution.submitSuccess'))
+}
+</script>
+```
+
+### Guidelines:
+- **Always use translation keys** instead of hardcoded strings for user-facing text
+- **Use interpolation** for dynamic values: `$t('key', { variable })`
+- **Keep keys organized** by component/section (e.g., `puzzleGrid.*`, `solution.*`)
+- **Update both locale files** when adding new translation keys
+- **Never translate** technical strings like CSS classes, IDs, or data values
+- **Test with both languages** by visiting `?lang=nl` and `?lang=en`
+
+### Dynamic Content Updates:
+- The `<html>` element's `lang` attribute updates automatically
+- Page title and meta description sync with current locale
+- Language preference persists across sessions via localStorage

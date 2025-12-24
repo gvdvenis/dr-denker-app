@@ -1,26 +1,28 @@
 <template>
   <div>
-    <button class="solution-btn" @click="openModal" aria-label="Submit solution">
-      ✓ Solution
+    <button class="solution-btn" @click="openModal" :aria-label="$t('solution.submitSolution')">
+      ✓ {{ $t('solution.buttonText') }}
     </button>
 
     <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
       <div class="modal">
         <div class="modal-header">
-          <h2>Enter Puzzle Solution</h2>
+          <h2>{{ $t('solution.modalTitle') }}</h2>
           <button class="modal-close" @click="showModal = false">✕</button>
         </div>
 
         <div class="modal-content">
           <div v-if="expectedLength" class="expected-length">
-            Expected length: {{ expectedLength }} characters
+            {{ $t('solution.expectedLength', { length: expectedLength }) }}
           </div>
           <div class="input-wrapper">
             <input
               ref="inputElement"
               v-model="solutionInput"
               type="text"
-              :placeholder="`Enter your solution (${expectedLength || '?'} characters)...`"
+              :placeholder="expectedLength 
+                ? $t('solution.placeholder', { length: expectedLength }) 
+                : $t('solution.placeholderUnknown')"
               class="solution-input"
               @keyup.enter="submitSolution"
               :maxlength="expectedLength || undefined"
@@ -29,7 +31,7 @@
               v-if="solutionInput"
               class="clear-btn"
               @click="clearInput"
-              aria-label="Clear input"
+              :aria-label="$t('solution.clearInput')"
             >
               ✕
             </button>
@@ -41,8 +43,8 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn btn-cancel" @click="showModal = false">Cancel</button>
-          <button class="btn btn-submit" @click="submitSolution">Submit</button>
+          <button class="btn btn-cancel" @click="showModal = false">{{ $t('solution.cancel') }}</button>
+          <button class="btn btn-submit" @click="submitSolution">{{ $t('solution.submit') }}</button>
         </div>
       </div>
     </div>
@@ -51,6 +53,9 @@
 
 <script setup lang="ts">
 import { ref, watch, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 interface Props {
   imageId?: number
@@ -96,7 +101,7 @@ const submitSolution = () => {
     if (props.imageId) {
       emit('submit', props.imageId, '')
     }
-    validationMessage.value = '✓ Solution cleared!'
+    validationMessage.value = t('solution.clearedSuccess')
     validationClass.value = 'success'
     
     setTimeout(() => {
@@ -108,7 +113,7 @@ const submitSolution = () => {
 
   // Validate length if expected length is provided
   if (props.expectedLength && trimmedInput.length !== props.expectedLength) {
-    validationMessage.value = `Answer must be exactly ${props.expectedLength} characters`
+    validationMessage.value = t('solution.validationError', { length: props.expectedLength })
     validationClass.value = 'error'
     return
   }
@@ -118,7 +123,7 @@ const submitSolution = () => {
     emit('submit', props.imageId, trimmedInput)
   }
 
-  validationMessage.value = '✓ Solution submitted successfully!'
+  validationMessage.value = t('solution.submitSuccess')
   validationClass.value = 'success'
   
   setTimeout(() => {

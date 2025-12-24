@@ -1,10 +1,13 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import PuzzleGrid from './components/PuzzleGrid.vue'
 import ImageZoomView from './components/ImageZoomView.vue'
 import CrosswordView from './components/CrosswordView.vue'
 import { usePuzzleData } from './composables/usePuzzleData'
 import { useLocalStorage } from './composables/useLocalStorage'
+
+const { locale, t } = useI18n()
 
 const showZoom = ref(false)
 const selectedImageId = ref(1)
@@ -13,6 +16,13 @@ const showCrossword = ref(false)
 // Load puzzle data and solutions
 const { puzzleData, loadPuzzleData, getPuzzleAnswer } = usePuzzleData()
 const { solutions, loadSolutions, saveSolution } = useLocalStorage()
+
+// Sync language to HTML attributes
+watch(locale, (newLocale) => {
+  document.documentElement.setAttribute('lang', newLocale)
+  document.getElementById('app-title').textContent = t('meta.title')
+  document.getElementById('app-description').setAttribute('content', t('meta.description'))
+}, { immediate: true })
 
 // Computed properties
 const characterCounts = computed(() => {
