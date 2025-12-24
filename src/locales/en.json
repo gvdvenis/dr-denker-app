@@ -32,5 +32,9 @@
   },
   "thumbnail": {
     "alt": "Thumbnail {index}"
+  },
+  "pwa": {
+    "updateComplete": "App updated successfully!",
+    "close": "Close notification"
   }
 }

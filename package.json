@@ -9,7 +9,8 @@
     "build": "npm run optimize-images && vite build",
     "preview": "vite preview",
     "optimize-images": "node scripts/optimize-images.js",
-    "force-optimize": "node scripts/optimize-images.js --force"
+    "force-optimize": "node scripts/optimize-images.js --force",
+    "generate-icons": "node scripts/generate-pwa-icons.js"
   },
   "dependencies": {
     "@vueuse/core": "^14.1.0",
@@ -23,6 +24,7 @@
     "@vitejs/plugin-vue": "^5.0.5",
     "sharp": "^0.34.5",
     "terser": "^5.44.1",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "vite-plugin-pwa": "^1.2.0"
   }
 }

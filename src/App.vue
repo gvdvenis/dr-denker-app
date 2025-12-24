@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import PuzzleGrid from './components/PuzzleGrid.vue'
 import ImageZoomView from './components/ImageZoomView.vue'
 import CrosswordView from './components/CrosswordView.vue'
+import UpdateToast from './components/UpdateToast.vue'
 import { usePuzzleData } from './composables/usePuzzleData'
 import { useLocalStorage } from './composables/useLocalStorage'
 
@@ -110,6 +111,9 @@ onMounted(async () => {
       @close="closeCrossword"
     />
   </Transition>
+  
+  <!-- Toast for PWA updates -->
+  <UpdateToast ref="updateToast" />
 </template>
 
 <style>

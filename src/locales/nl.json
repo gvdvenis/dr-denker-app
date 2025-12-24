@@ -32,5 +32,9 @@
   },
   "thumbnail": {
     "alt": "Miniatuur {index}"
+  },
+  "pwa": {
+    "updateComplete": "App succesvol bijgewerkt!",
+    "close": "Sluiten melding"
   }
 }
