@@ -1,0 +1,52 @@
+# Build results
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# User-specific files
+appsettings.Development.json
+appsettings.Production.json
+
+# Logs
+logs/
+*.log
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+
+# Local environment variables
+.env
+.env.local
+
+# IDE
+launchSettings.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+TestResults/
+*.trx
+
+# Build output
+publish/
+PublishProfiles/
+
+# Runtime
+*.dll.config

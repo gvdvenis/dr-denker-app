@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "title": "Dr. Denker Kerstpuzzel 2025",
+    "description": "Dr. Denker Cryptische Kerstpuzzel 2025"
+  },
+  "puzzleGrid": {
+    "openCrossword": "Open oplossingenoverzicht",
+    "puzzlePiece": "Puzzelnummer {index}"
+  },
+  "imageZoom": {
+    "close": "Sluit detailweergave",
+    "zoomedPuzzlePiece": "Detail puzzelnummer {imageId}"
+  },
+  "crossword": {
+    "title": "Oplossingenoverzicht",
+    "close": "Sluit oplossingenoverzicht",
+    "progress": "{count}/40 puzzels opgelost"
+  },
+  "solution": {
+    "buttonText": "Oplossing",
+    "submitSolution": "Oplossing verzenden",
+    "modalTitle": "voer oplossing in",
+    "expectedLength": "Verwachte lengte: {length} tekens",
+    "placeholder": "Je oplossing ({length} tekens)",
+    "placeholderUnknown": "Je oplossing (? tekens)",
+    "clearInput": "Leegmaken",
+    "cancel": "Annuleren",
+    "submit": "Verzenden",
+    "clearedSuccess": "Oplossing gewist!",
+    "validationError": "Antwoord moet precies {length} tekens lang zijn",
+    "submitSuccess": "Oplossing succesvol ingediend!"
+  },
+  "thumbnail": {
+    "alt": "Miniatuur {index}"
+  },
+  "pwa": {
+    "updateComplete": "App succesvol bijgewerkt!",
+    "close": "Sluiten melding"
+  }
+  ,
+  "common": {
+    "cancel": "Annuleren"
+  },
+  "login": {
+    "title": "Inloggen",
+    "verify": "Code verifiëren",
+    "email": "E-mail",
+    "code": "Eenmalige code",
+    "request": "Code sturen",
+    "submit": "Verifiëren",
+    "hint": "We sturen je een 6-cijferige code per e-mail."
+  }
+}

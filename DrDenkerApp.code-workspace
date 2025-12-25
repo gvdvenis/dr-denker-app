@@ -1,0 +1,135 @@
+{
+  "folders": [
+    {
+      "name": "Frontend",
+      "path": "frontend"
+    },
+    {
+      "name": "Backend",
+      "path": "backend"
+    },
+    {
+      "name": "Documentation",
+      "path": "doc"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/bin": true,
+      "**/obj": true
+    }
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Run Backend",
+        "type": "shell",
+        "command": "dotnet",
+        "args": [
+          "run",
+          "--project",
+          "${workspaceFolder:Backend}/DrDenkerApp.Api/DrDenkerApp.Api.csproj",
+          "--urls",
+          "http://localhost:5000"
+        ],
+        "problemMatcher": "$msCompile",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "dedicated",
+          "showReuseMessage": false,
+          "clear": false
+        },
+        "group": "none",
+        "isBackground": true
+      },
+      {
+        "label": "Run Frontend",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "dev"],
+        "options": {
+          "cwd": "${workspaceFolder:Frontend}"
+        },
+        "problemMatcher": [],
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "dedicated",
+          "showReuseMessage": false,
+          "clear": false
+        },
+        "group": "none",
+        "isBackground": true
+      },
+      {
+        "label": "Build Backend",
+        "type": "shell",
+        "command": "dotnet",
+        "args": [
+          "build",
+          "${workspaceFolder:Backend}/DrDenkerApp.Api/DrDenkerApp.Api.csproj"
+        ],
+        "problemMatcher": "$msCompile",
+        "group": "build"
+      },
+      {
+        "label": "Build Frontend",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "build"],
+        "options": {
+          "cwd": "${workspaceFolder:Frontend}"
+        },
+        "problemMatcher": [],
+        "group": "build"
+      },
+      {
+        "label": "Install Frontend Dependencies",
+        "type": "shell",
+        "command": "npm",
+        "args": ["install"],
+        "options": {
+          "cwd": "${workspaceFolder:Frontend}"
+        },
+        "problemMatcher": []
+      },
+      {
+        "label": "Start Both (Backend + Frontend)",
+        "dependsOn": ["Run Backend", "Run Frontend"],
+        "problemMatcher": []
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Launch Backend (API)",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "Build Backend",
+        "program": "${workspaceFolder:Backend}/DrDenkerApp.Api/bin/Debug/net10.0/DrDenkerApp.Api.dll",
+        "args": [],
+        "cwd": "${workspaceFolder:Backend}/DrDenkerApp.Api",
+        "stopAtEntry": false,
+        "serverReadyAction": {
+          "action": "openExternally",
+          "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+        },
+        "env": {
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "ASPNETCORE_URLS": "http://localhost:5000"
+        },
+        "sourceFileMap": {
+          "/Views": "${workspaceFolder:Backend}/DrDenkerApp.Api/Views"
+        }
+      }
+    ],
+    "compounds": []
+  }
+}
